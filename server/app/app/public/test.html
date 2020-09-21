@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>测试后端文档</title>
+	<script src='https://s1.pstatp.com/cdn/expire-1-M/axios/0.19.2/axios.js'></script>
+</head>
+
+<body>
+	<h1>用于测试后端接口的页面:控制台看结果</h1>
+	<hr>
+
+	<h1>验证码</h1>
+	<button id="verifbtn">请求验证码</button><span id="svg"></span>
+	<script>
+		async function loadVerif() {
+			var re = await axios.get("http://192.168.3.113:7001/verif", { params: {} }, { withCredentials: true })
+			svg1.innerHTML = re.data
+		}
+		var verifbtn = document.querySelector("#verifbtn")
+		var svg1 = document.querySelector("#svg")
+		verifbtn.onclick = loadVerif
+		loadVerif()
+	</script>
+
+
+	<hr>
+	<!-- 
+username         用户名,可以中文随便
+email            独一无二,注册过的不能在注册
+pwd              用户密码 
+img              用户上传的头像图片,可以不传有默认头像
+ -->
+	<h1>注册</h1>
+	username<input type="text" name="username" id="username"> <br>
+	email<input type="text" name="email" id="email"> <br>
+	pwd<input type="text" name="pwd" id="pwd"> <br>
+	img<input type="file" name="img" id="img"> <br>
+	verif<input type="text" name="verif" id="verif"> <br>
+	<button id="registerbtn">注册</button> <br>
+	<script>
+		var username = document.querySelector("#username")
+		var email = document.querySelector("#email")
+		var pwd = document.querySelector("#pwd")
+		var img1 = document.querySelector("#img")
+		var verif = document.querySelector("#verif")
+		async function registerbtnGo() {
+			var userinfo1 = new FormData()
+			userinfo1.append("username", username.value)
+			userinfo1.append("email", email.value)
+			userinfo1.append("pwd", pwd.value)
+			userinfo1.append("img", img1.files[0])
+			userinfo1.append("verif", verif.value)
+			var re = await axios.post("http://192.168.3.113:7001/register", userinfo1, { withCredentials: true })
+			console.log("注册结果", re.data)
+		}
+		var registerbtn = document.querySelector("#registerbtn")
+		registerbtn.onclick = registerbtnGo
+	</script>
+
+
+
+	<hr>
+	<h1>登录</h1>
+	email<input type="text" name="email" id="email2"> <br>
+	pwd<input type="text" name="pwd" id="pwd2"> <br>
+	<button id="loginbtn">登录</button> <br>
+	<script>
+
+		async function loginbtGo() {
+			var email2 = document.querySelector("#email2")
+			var pwd2 = document.querySelector("#pwd2")
+			var data = { email: email2.value, pwd: pwd2.value }
+			var re = await axios.post("http://192.168.3.113:7001/login", data, { withCredentials: true })
+			console.log("登录结果", re.data)
+		}
+		var loginbtn = document.querySelector("#loginbtn")
+		loginbtn.onclick = loginbtGo
+
+	</script>
+
+
+
+	<hr>
+	<!-- 
+4.上传作品接口
+url:    /uploadImg
+请求方式:   get
+
+请求条件:用户必须已经登录
+参数:  
+字段名             描述
+upimgsrc          用户上传的图片文件:摄影图片                  
+description       对作品图片的描述--用于后面搜索
+imgtype           摄影图片分类--用于后面搜索
+imgname           摄影图片的名字--用于后面搜索
+imgtitle          摄影图片的标题--用于后面搜索
+
+
+返回数据示例:   
+{code:4005,info:"没上传图片"}
+{code:2004,info:"上传成功",img:imgurl}
+{code:4006,info:"用户未登录"}
+
+ -->
+	<h1>上传作品</h1>
+	摄影图片<input type="file" name="upimgsrc" id="upimgsrc"> <br>
+	description<input type="text" name="description" id="description"> <br>
+	imgtype<input type="text" name="imgtype" id="imgtype"> <br>
+	imgname<input type="text" name="imgname" id="imgname"> <br>
+	imgtitle<input type="text" name="imgtitle" id="imgtitle"> <br>
+	<button id="uploadUserProductionImgBtn">上传</button> <br>
+	<script>
+		async function uploadUserProductionImgBtnGo() {
+			var upimgsrc = document.querySelector("#upimgsrc")
+			var description = document.querySelector("#description")
+			var imgtype = document.querySelector("#imgtype")
+			var imgname = document.querySelector("#imgname")
+			var imgtitle = document.querySelector("#imgtitle")
+			var data1 = new FormData()
+			data1.append("upimgsrc", upimgsrc.files[0])
+			data1.append("description", description.value)
+			data1.append("imgtype", imgtype.value)
+			data1.append("imgname", imgname.value)
+			data1.append("imgtitle", imgtitle.value)
+			console.log(data1)
+
+			var re = await axios.post("http://192.168.3.113:7001/uploadImg", data1, { withCredentials: true })
+			console.log("上传结果", re.data)
+		}
+		var uploadUserProductionImgBtn = document.querySelector("#uploadUserProductionImgBtn")
+		uploadUserProductionImgBtn.onclick = uploadUserProductionImgBtnGo
+	</script>
+
+
+	<hr>
+	<h1>所有摄影作品获取</h1>
+	<button id="allproduction">获取</button>
+	<script>
+		async function allproductionbtnGo() {
+			var re = await axios.get("http://192.168.3.113:7001/allproduction")
+			console.log("所有摄影作品", re.data)
+
+		}
+		var allproductionbtn = document.querySelector("#allproduction")
+		allproductionbtn.onclick = allproductionbtnGo
+
+
+	</script>
+
+
+
+
+	<hr>
+	<h1>获取当前登录用户所有收藏的图片</h1>
+	<button id="getcollectionBtn">获取</button>
+	<script>
+		async function getcollectionBtnGo() {
+			var re = await axios("http://192.168.3.113:7001/getcollectionProduction")
+			console.log(re)
+		}
+		var getcollectionBtn = document.querySelector("#getcollectionBtn")
+		getcollectionBtn.onclick = getcollectionBtnGo
+
+	</script>
+
+
+</body>
+
+</html>

@@ -25,19 +25,21 @@ class UserService extends Service {
   async register(userinfo) {
     console.log("提交的数据:", userinfo)//注册按钮提交时 提交的数据
     console.log("上一次的缓存验证码", this.ctx.session)//上一次的缓存验证码
-    if (!this.ctx.session.verif) { 
+    if (!this.ctx.session.verif) {
       return { code: 4003, info: "前端没有获取验证码,验证码接口: http://ip:7001/verif" }
     }
     else if (userinfo.verif.toUpperCase() != this.ctx.session.verif.toUpperCase()) {
       return { code: 4001, info: "验证码错误" }
     } else {
-      var sql = `select *from userinfo where email="${userinfo.email}"`
+      var sql = `select * from userinfo where email="${userinfo.email}"`
+     
       var results = await this.app.mysql.query(sql)
       // console.log(re)
       if (results[0]) {
         return { code: 4002, info: "邮箱已经注册过" }
       } else {
-        var sql = `insert into userinfo (username,email,pwd,img) values ("${userinfo.username}",${userinfo.email}","${userinfo.pwd}","${userinfo.img}")`
+        var sql = `insert into userinfo (username,email,pwd,img) values ("${userinfo.username}","${userinfo.email}","${userinfo.pwd}","${userinfo.img}")`
+        console.log(sql,1111)
         var results1 = await this.app.mysql.query(sql)
         if (results1.affectedRows > 0) {
           return { code: 2001, info: "注册成功" }
@@ -53,6 +55,12 @@ class UserService extends Service {
 
 
 
+  // 登录
+  async login(loginUserInfo) {
+    var sql = `select * from userinfo where email="${loginUserInfo.email}" and pwd="${loginUserInfo.pwd}"`
+    var result = await this.app.mysql.query(sql)
+    return result
+  }
 
 }
 
