@@ -14,18 +14,18 @@ module.exports = appInfo => {
 
   config.session = {
     key: 'HQYJ',
-    maxAge: 1000*3600*24,
+    maxAge: 1000 * 3600 * 24,
     httpOnly: true,
     encrypt: true
   }
 
 
-  config.security={
-    csrf:{
-      enable:false
+  config.security = {
+    csrf: {
+      enable: false
     }
   }
-  
+
   config.multipart = {
     mode: 'file',
   };
@@ -33,12 +33,13 @@ module.exports = appInfo => {
 
   //设置允许哪些源可以跨域访问当前服务器
   // credentials: true  跨域服务的页面去做cookie缓存
-  config.cors={
-    origin:"http://192.168.3.113:8080",
+  config.cors = {
+    origin: 'http://10.55.58.252:8080',
     credentials: true//后端会给去前端返回缓存数据包  告诉浏览器  去做缓存
- }
+  }
 
 
+  //配置mysql参数
   config.mysql = {
     client: {
       //host
@@ -52,7 +53,7 @@ module.exports = appInfo => {
       //数据库名
       database: "tegg"
     }
-  }
+  };
 
 
 

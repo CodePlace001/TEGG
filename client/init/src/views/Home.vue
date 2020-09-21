@@ -1,10 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <!-- <router-link to="/about">666</router-link>
-	 -->
-	 
-	 <button @click="fn">xxx</button>
+    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
+  
   </div>
 </template>
 
@@ -17,12 +14,7 @@ export default {
     
   },
   methods:{
-	  fn(){
-		  
-		  
-		  this.$router.push("/about")
-		  // console.log(this.$x)
-	  }
+	 
   }
 }
 </script>

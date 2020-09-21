@@ -8,18 +8,22 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  routes:[
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
-  }
-]
+  routes: [
+    {
+      path: '/',
+      component: Home
+    },
+    {
+      //登录和注册
+      path: '/p1',
+      component: () => import('../views/p1.vue'),
+    },
+    {
+      //个人中心
+      path: '/my',
+      component: () => import('../views/my.vue'),
+    }
+  ]
 })
 
 export default router

@@ -37,15 +37,42 @@ class UserController extends Controller {
 
 
     //登录
-    async login(){
-        var result=await this.ctx.service.user.login(this.ctx.request.body)
-        if(result[0]){
-          //验证通过,用户输入正确,通知浏览器做cookie缓存,后端保存用户id
-             this.ctx.session.userid=result[0].id
-             this.ctx.body={code:2002,info:"登录成功,接下来请求任何接口都不用传账号密码"}
-        }else{
-             this.ctx.body={code:4003,info:"密码或账号错误"}
+    async login() {
+        var result = await this.ctx.service.user.login(this.ctx.request.body)
+        console.log("66666", result);
+        if (result[0]) {
+            //验证通过,用户输入正确,通知浏览器做cookie缓存,后端保存用户id
+            console.log("aaa", this.ctx.request.body.email);
+            console.log("bbb", this.ctx.session.email);
+            this.ctx.session.email = this.ctx.request.body.email
+            this.ctx.body = { code: 2002, info: "登录成功,接下来请求任何接口都不用传账号密码" }
+        } else {
+            this.ctx.body = { code: 4003, info: "密码或账号错误" }
         }
+    }
+
+    //用户信息，头像，昵称
+    async userinfo() {
+        const { ctx } = this;
+        console.log("11111111", ctx.session.email);
+        var res = await ctx.service.user.userinfo()
+        ctx.body = res;
+    }
+    // 注销
+    async destroy() {
+        const { ctx } = this;
+        var res = await ctx.service.user.destroy()
+        // ctx.body = res;
+    }
+
+    // 昵称
+    async username() {
+        const { ctx } = this;
+        console.log(ctx.request.queries, ctx.request.files, ctx.request.body);
+        console.log(ctx.request.queries);
+        // console.log(ctx.request.queries.username[0]);
+        var re = await ctx.service.user.username(ctx.request.queries);
+        ctx.body = re;
     }
 
 
