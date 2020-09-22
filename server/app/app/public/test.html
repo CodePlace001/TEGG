@@ -16,7 +16,7 @@
 	<button id="verifbtn">请求验证码</button><span id="svg"></span>
 	<script>
 		async function loadVerif() {
-			var re = await axios.get("http://192.168.3.113:7001/verif", { params: {} }, { withCredentials: true })
+			var re = await axios.get("http://192.168.3.153:7001/verif", { params: {} }, { withCredentials: true })
 			svg1.innerHTML = re.data
 		}
 		var verifbtn = document.querySelector("#verifbtn")
@@ -53,7 +53,7 @@ img              用户上传的头像图片,可以不传有默认头像
 			userinfo1.append("pwd", pwd.value)
 			userinfo1.append("img", img1.files[0])
 			userinfo1.append("verif", verif.value)
-			var re = await axios.post("http://192.168.3.113:7001/register", userinfo1, { withCredentials: true })
+			var re = await axios.post("http://192.168.3.153:7001/register", userinfo1, { withCredentials: true })
 			console.log("注册结果", re.data)
 		}
 		var registerbtn = document.querySelector("#registerbtn")

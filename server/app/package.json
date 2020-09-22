@@ -9,6 +9,7 @@
   "dependencies": {
     "egg": "^2.15.1",
     "egg-scripts": "^2.11.0",
+    "npm": "^6.14.8",
     "svg-captcha": "^1.4.0"
   },
   "devDependencies": {

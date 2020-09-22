@@ -34,7 +34,7 @@ module.exports = appInfo => {
   //设置允许哪些源可以跨域访问当前服务器
   // credentials: true  跨域服务的页面去做cookie缓存
   config.cors = {
-    origin: 'http://10.55.58.252:8080',
+    origin: 'http://192.168.3.153:8080',
     credentials: true//后端会给去前端返回缓存数据包  告诉浏览器  去做缓存
   }
 
